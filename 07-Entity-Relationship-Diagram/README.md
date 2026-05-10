@@ -1,6 +1,8 @@
-# Entity Relationship Diagram
+# 7. Entity Relationship Diagram
 
-The data model consists of nine tables: four reference tables, four transactional tables, and one supporting transactional table for documents.
+The data model consists of nine tables: four reference tables, four core transactional tables, and one supporting transactional table for documents.
+
+---
 
 ## Tables
 
@@ -103,12 +105,14 @@ The data model consists of nine tables: four reference tables, four transactiona
 
 | Column | Type | Notes |
 | --- | --- | --- |
-| Document Title | Calculated | Employee.FullName + " — " + DocumentType |
+| Document Title | Calculated | Employee Full Name + " — " + Document Type |
 | Case | Lookup → Onboarding Case | Parental |
 | Document Type | Choice | BVN Slip, NIN Slip, Academic Certificate, Bank Details, Other |
 | File Attachment | File | |
 | Uploaded Date | Date and Time | |
 | Status | Choice | Pending Review, Approved, Rejected |
+
+---
 
 ## Relationships
 
@@ -132,7 +136,9 @@ The data model consists of nine tables: four reference tables, four transactiona
 | Task Template | Onboarding Task | 1:N | Referential, Remove Link |
 | Onboarding Task | Equipment | 1:0..1 | Referential |
 
-## Diagram
+---
+
+## Diagram — Relationships Overview
 
 ```mermaid
 erDiagram
@@ -152,3 +158,112 @@ erDiagram
   ONBOARDING_CASE ||--o{ NEW_HIRE_DOCUMENT : stores
   TASK_TEMPLATE ||--o{ ONBOARDING_TASK : generates
   ONBOARDING_TASK ||--o| EQUIPMENT : records
+```
+
+---
+
+## Diagram — Tables, Columns, and Relationships
+
+```mermaid
+erDiagram
+  DEPARTMENT ||--o{ JOB_ROLE : groups
+  DEPARTMENT ||--o{ EMPLOYEE : employs
+  DEPARTMENT ||--o{ STAFF : employs
+  JOB_ROLE ||--o{ EMPLOYEE : defines
+  JOB_ROLE ||--o{ TASK_TEMPLATE : scopes
+  STAFF ||--o{ EMPLOYEE : manages
+  STAFF ||--o{ ONBOARDING_CASE : owns
+  STAFF ||--o{ ONBOARDING_TASK : executes
+  STAFF ||--o{ EQUIPMENT : issues
+  STAFF ||--o| STAFF : backs_up
+  EMPLOYEE ||--|| ONBOARDING_CASE : has
+  EMPLOYEE ||--o{ EQUIPMENT : receives
+  ONBOARDING_CASE ||--o{ ONBOARDING_TASK : contains
+  ONBOARDING_CASE ||--o{ NEW_HIRE_DOCUMENT : stores
+  TASK_TEMPLATE ||--o{ ONBOARDING_TASK : generates
+  ONBOARDING_TASK ||--o| EQUIPMENT : records
+
+  DEPARTMENT {
+    string DepartmentName "Primary Name"
+    string DepartmentCode "Unique"
+    string DepartmentHead
+  }
+  JOB_ROLE {
+    string RoleName "Primary Name"
+    string RoleCode "Unique"
+    lookup Department "FK"
+    bool IsCustomerFacing
+  }
+  STAFF {
+    string FullName "Primary Name"
+    string StaffNumber "Unique"
+    choice StaffRole
+    lookup Department "FK"
+    string Email
+    lookup BackupStaff "FK self-ref"
+  }
+  TASK_TEMPLATE {
+    string TaskName "Primary Name"
+    string TemplateCode
+    choice DefaultAssigneeRole
+    int DueDateOffsetDays
+    bool IsCriticalForDay1
+    lookup AppliesToJobRole "FK"
+    bool RequiresEquipment
+  }
+  EMPLOYEE {
+    string FullName "Primary Name"
+    string EmployeeNumber "Unique"
+    lookup JobRole "FK"
+    lookup Department "FK"
+    date StartDate
+    lookup ReportingManager "FK to Staff"
+    choice EmploymentType
+    string WorkLocation
+    string PersonalEmail
+    string WorkEmail
+  }
+  ONBOARDING_CASE {
+    string CaseNumber "Primary Name"
+    lookup Employee "FK unique"
+    choice CaseStatus
+    datetime CaseOpenedDate
+    datetime CaseClosedDate
+    lookup AssignedHRBP "FK to Staff"
+    choice Day1Readiness
+    choice ProbationOutcome
+  }
+  ONBOARDING_TASK {
+    string TaskNumber "Primary Name"
+    lookup Case "FK Parental"
+    string TaskName
+    lookup AssignedTo "FK to Staff"
+    date DueDate
+    choice Status
+    datetime CompletedDate
+    lookup CompletedBy "FK to Staff"
+    bool IsCriticalForDay1
+    string Notes
+    lookup Template "FK"
+  }
+  EQUIPMENT {
+    string SerialNumber "Primary Name Unique"
+    choice EquipmentType
+    lookup AssignedTo "FK to Employee"
+    date DateIssued
+    lookup IssuedBy "FK to Staff"
+    lookup RelatedTask "FK"
+  }
+  NEW_HIRE_DOCUMENT {
+    string DocumentTitle "Calculated"
+    lookup Case "FK Parental"
+    choice DocumentType
+    file FileAttachment
+    datetime UploadedDate
+    choice Status
+  }
+```
+
+---
+
+➡️ Next: **[Section 8 — Business Logic](../08-Business-Logic)**
