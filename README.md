@@ -1,6 +1,6 @@
 # Employee Onboarding Tracker — Contoso
 
-Phase 1 design and specification for an Employee Onboarding Tracker, produced as part of the **Platform Explorers Cohort 2 — Power Platform track (Week 4-6)**.
+Phase 1 design and specification for an Employee Onboarding Tracker
 
 ---
 
@@ -32,17 +32,17 @@ I worked through the design in nine sections, each one feeding into the next:
 
 ## Key Design Choices
 
-**One case per new hire.** Each new employee has exactly one Onboarding Case that parents all their tasks, equipment records, and uploaded documents.
+**One Onboarding record per new hire.** Each new employee has exactly one Onboarding record that parents all their tasks, equipment records, and uploaded documents.
 
 **Tasks are generated from templates, not hard-coded.** A separate Task Template table holds the standard onboarding checklist. HR can change the checklist by editing template rows — no developer involvement.
 
 **Role-tailored task generation.** Tasks tagged to a specific job role only generate for that role. Universal tasks generate for every new hire.
 
-**Day-1 Readiness check.** Three days before the start date, the system flags any case where critical tasks are still incomplete and escalates to HR leadership.
+**Day-1 Readiness check.** Three days before the start date, the system flags any onboarding record where critical tasks are still incomplete and escalates to HR leadership.
 
 **Self-service portal for new hires.** New hires upload personal documents (BVN, NIN, certificates) before Day 1 through an external-facing portal, removing manual chase-ups by HR.
 
-**Probation milestones built in.** Onboarding doesn't close at Day 1. The case stays open through 30/60/90-day probation milestones owned by the reporting manager.
+**Probation milestones built in.** Onboarding doesn't close at Day 1. The record stays open through 30/60/90-day probation milestones owned by the reporting manager.
 
 ---
 
@@ -71,17 +71,9 @@ Employee-Onboarding-Tracker-Contoso/
 
 |  |  |
 | --- | --- |
-| **Programme** | Platform Explorers Cohort 2 |
-| **Track** | Power Platform |
-| **Use Case** | Employee Onboarding Tracker (Week 4-6) |
+| **Use Case** | Employee Onboarding Tracker |
 | **Author** | [Martins Osahon Osimen](https://github.com/martosah) |
 | **Phase** | Phase 1 — Design and Specification |
-
----
-
-## Acknowledgements
-
-Thanks to the Platform Explorers programme and the cohort coaches — Juan Ojochemi Idowu, Mathew Ede, Rachel Irabor, Sarah Anueyiagu, Church Ephraim, Thomas Okuya, and Adewale Yusuf.
 
 ---
 
