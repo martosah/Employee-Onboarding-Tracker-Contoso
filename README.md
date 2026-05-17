@@ -14,7 +14,7 @@ The result is missed handoffs across HR, IT, Facilities, and Compliance, no clea
 
 ## The Approach
 
-I worked through the design in eight sections, each one feeding into the next:
+I worked through the design in nine sections, each one feeding into the next:
 
 | # | Section | Focus |
 | --- | --- | --- |
@@ -26,6 +26,7 @@ I worked through the design in eight sections, each one feeding into the next:
 | 6 | [Entity Relationship Diagram](./06-Entity-Relationship-Diagram) | The data model and relationships |
 | 7 | [Business Logic](./07-Business-Logic) | The rules that govern system behaviour |
 | 8 | [Power Platform Components](./08-Power-Platform-Components) | Components selected to deliver the solution |
+| 9 | [Process Flow Diagram](./09-Process-Flow-Diagram) | End-to-end onboarding process by role |
 
 ---
 
@@ -60,7 +61,8 @@ Employee-Onboarding-Tracker-Contoso/
 ├── 05-Business-Requirements-and-Acceptance-Criteria/
 ├── 06-Entity-Relationship-Diagram/
 ├── 07-Business-Logic/
-└── 08-Power-Platform-Components/
+├── 08-Power-Platform-Components/
+└── 09-Process-Flow-Diagram/
 ```
 
 ---
