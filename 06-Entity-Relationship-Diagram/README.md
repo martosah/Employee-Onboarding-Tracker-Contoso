@@ -1,6 +1,7 @@
 # 6. Entity Relationship Diagram
 
 The data model consists of nine tables: four reference tables, four core transactional tables, and one supporting transactional table for documents.
+
 ![Employee Onboarding Tracker ERD](./Employee_Onboarding_Tracker_ERD_16x9.png)
 
 ---
