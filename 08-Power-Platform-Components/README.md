@@ -12,13 +12,13 @@ The data foundation. Stores the nine tables, relationships, calculated columns, 
 
 ## Power Apps — Model-Driven App
 
-The primary interface for HR and operational staff. Hosts the New Hire Form, case detail forms, task forms, dashboards, and views. Used by HR Business Partners, Head of HR, IT Administrators, Facilities Officers, Compliance Officers, and Reporting Managers.
+The primary interface for HR and operational staff. Hosts the New Hire Form, record detail forms, task forms, dashboards, and views. Used by HR Business Partners, Head of HR, IT Administrators, Facilities Officers, Compliance Officers, and Reporting Managers.
 
 ---
 
 ## Power Pages
 
-The self-service portal for new hires. Hosts secure document upload, case status visibility, and Day-1 logistics. Used by new hires before they have corporate accounts.
+The self-service portal for new hires. Hosts secure document upload, record status visibility, and Day-1 logistics. Used by new hires before they have corporate accounts.
 
 ---
 
@@ -26,9 +26,9 @@ The self-service portal for new hires. Hosts secure document upload, case status
 
 Implements the workflow automation. Three flow types are used:
 
-- **Automated flows** triggered by Dataverse events: case creation, task generation, task notification, equipment validation, completion metadata, auto-closure, document handling.
+- **Automated flows** triggered by Dataverse events: record creation, task generation, task notification, equipment validation, completion metadata, auto-closure, document handling.
 - **Scheduled flows** running daily: pre-due reminders, day-of reminders, escalations, three-day and one-day readiness checks.
-- **Manual flows** triggered from forms: case reassignment and ad-hoc readiness re-runs.
+- **Manual flows** triggered from forms: record reassignment and ad-hoc readiness re-runs.
 
 ---
 
@@ -40,7 +40,7 @@ Executive analytics for HR leadership. Dashboards cover average onboarding durat
 
 ## Copilot Studio
 
-Optional AI chatbot embedded in the new hire portal. Answers common questions ("When is my induction?", "What documents do I still need to upload?") grounded in the new hire's case data.
+Optional AI chatbot embedded in the new hire portal. Answers common questions ("When is my induction?", "What documents do I still need to upload?") grounded in the new hire's record data.
 
 ---
 
