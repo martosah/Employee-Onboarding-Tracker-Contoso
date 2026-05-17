@@ -16,7 +16,7 @@ The flow runs left to right across five swim lanes, one per role:
 | --- | --- | --- |
 | 1 | New Hire | Signs offer, uploads documents, starts Day 1 |
 | 2 | HR Business Partner | Submits the New Hire Form, reviews documents, addresses readiness gaps |
-| 3 | System (Power Platform) | Validates, creates the case, generates and assigns tasks, runs readiness checks, auto-closes |
+| 3 | System (Power Platform) | Validates, creates the record, generates and assigns tasks, runs readiness checks, auto-closes |
 | 4 | Operations (IT, Facilities, Compliance) | Executes assigned tasks in parallel |
 | 5 | Reporting Manager | Conducts 30/60/90-day check-ins and records probation outcome |
 
@@ -30,7 +30,7 @@ The process has three decision gates where the flow can branch:
 
 **2. Day-1 Readiness Check** — Three days before Start Date, the system evaluates whether all critical tasks are complete. If At Risk, the HRBP must address outstanding gaps before the check re-runs.
 
-**3. Probation Outcome** — At Day 90, the Reporting Manager records the outcome. Passed closes the case. Extended loops back into further probation check-ins. Failed exits the process through an HR offboarding path.
+**3. Probation Outcome** — At Day 90, the Reporting Manager records the outcome. Passed closes the record. Extended loops back into further probation check-ins. Failed exits the process through an HR offboarding path.
 
 ---
 
