@@ -4,7 +4,7 @@
 
 Contoso onboards more than 30 new employees every month across multiple departments — Customer Experience, Technology, Operations, Marketing, Finance, and others. The HR team currently coordinates onboarding through a shared Excel tracker on SharePoint, with informal email handoffs to IT, Facilities, and Compliance.
 
-The process works on paper. In practice, it depends on individual diligence — the HRBP remembering to email IT, IT remembering to prepare the laptop, Facilities remembering to assign a desk. When anything is missed, the new hire feels it on Day 1.
+The process works on paper. In practice, it depends on individual diligence — the HR Business Partner (HRBP) remembering to email IT, IT remembering to prepare the laptop, Facilities remembering to assign a desk. When anything is missed, the new hire feels it on Day 1.
 
 ---
 
