@@ -266,4 +266,4 @@ erDiagram
 
 ---
 
-➡️ Next: **[Section 8 — Business Logic](../08-Business-Logic)**
+➡️ Next: **[Section 7 — Business Logic](../07-Business-Logic)**
