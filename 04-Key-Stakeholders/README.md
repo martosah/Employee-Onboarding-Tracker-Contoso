@@ -47,4 +47,4 @@ Stakeholders are people or groups affected by the solution but who do not necess
 
 ---
 
-➡️ Next: **[Section 5 — Business Requirements](../05-Business-Requirements)**
+➡️ Next: **[Section 5 — Business Requirements and Acceptance Criteria](../05-Business-Requirements-and-Acceptance-Criteria)**
