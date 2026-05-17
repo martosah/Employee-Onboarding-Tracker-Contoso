@@ -1,4 +1,4 @@
-# 9. Power Platform Components
+# 8. Power Platform Components
 
 The solution uses six Power Platform components, supported by Microsoft 365 services for communication.
 
