@@ -14,7 +14,7 @@ The result is missed handoffs across HR, IT, Facilities, and Compliance, no clea
 
 ## The Approach
 
-I worked through the design in nine sections, each one feeding into the next:
+I worked through the design in eight sections, each one feeding into the next:
 
 | # | Section | Focus |
 | --- | --- | --- |
@@ -22,11 +22,10 @@ I worked through the design in nine sections, each one feeding into the next:
 | 2 | [Business Scenario](./02-Business-Scenario) | Contoso's pain points and the gaps behind them |
 | 3 | [Roles in the Solution](./03-Roles-in-the-Solution) | The people who use the system |
 | 4 | [Key Stakeholders](./04-Key-Stakeholders) | Internal and external stakeholders |
-| 5 | [Business Requirements](./05-Business-Requirements) | Functional and non-functional requirements |
-| 6 | [Acceptance Criteria](./06-Acceptance-Criteria) | Acceptance criteria for every requirement |
-| 7 | [Entity Relationship Diagram](./07-Entity-Relationship-Diagram) | The data model and relationships |
-| 8 | [Business Logic](./08-Business-Logic) | The rules that govern system behaviour |
-| 9 | [Power Platform Components](./09-Power-Platform-Components) | Components selected to deliver the solution |
+| 5 | [Business Requirements and Acceptance Criteria](./05-Business-Requirements-and-Acceptance-Criteria) | Functional and non-functional requirements with their definition of done |
+| 6 | [Entity Relationship Diagram](./06-Entity-Relationship-Diagram) | The data model and relationships |
+| 7 | [Business Logic](./07-Business-Logic) | The rules that govern system behaviour |
+| 8 | [Power Platform Components](./08-Power-Platform-Components) | Components selected to deliver the solution |
 
 ---
 
@@ -49,7 +48,7 @@ I worked through the design in nine sections, each one feeding into the next:
 ## Repository Structure
 
 ```
-Employee_Onboarding_Tracker_Contoso/
+Employee-Onboarding-Tracker-Contoso/
 │
 ├── README.md
 ├── LICENSE
@@ -58,11 +57,10 @@ Employee_Onboarding_Tracker_Contoso/
 ├── 02-Business-Scenario/
 ├── 03-Roles-in-the-Solution/
 ├── 04-Key-Stakeholders/
-├── 05-Business-Requirements/
-├── 06-Acceptance-Criteria/
-├── 07-Entity-Relationship-Diagram/
-├── 08-Business-Logic/
-└── 09-Power-Platform-Components/
+├── 05-Business-Requirements-and-Acceptance-Criteria/
+├── 06-Entity-Relationship-Diagram/
+├── 07-Business-Logic/
+└── 08-Power-Platform-Components/
 ```
 
 ---
