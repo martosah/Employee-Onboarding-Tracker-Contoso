@@ -14,7 +14,7 @@ Employee onboarding spans four operational areas inside the organisation:
 
 | Area | Responsibility |
 | --- | --- |
-| HR | Owns the case end-to-end, schedules induction, captures personal documents |
+| HR | Owns the onboarding record end-to-end, schedules induction, captures personal documents |
 | IT | Provisions laptop, email and Active Directory account, software access |
 | Facilities | Allocates desk and access card, ships equipment to remote hires |
 | Compliance | Prepares contracts, NDAs, mandatory training enrolment |
@@ -32,7 +32,7 @@ The system coordinates the handoffs between these four areas so that nothing is 
 - Allowing new hires to upload required personal documents before Day 1
 - Confirming Day-1 readiness and flagging gaps in advance
 - Tracking 30/60/90-day probation milestones
-- Closing the case once probation is passed
+- Closing the onboarding record once probation is passed
 
 ---
 
