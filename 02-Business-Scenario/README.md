@@ -36,7 +36,7 @@ The pain points translate into measurable business cost:
 
 ## What "Better" Looks Like
 
-A single system where every onboarding case is created automatically when an offer is signed, every task has an owner and a due date, every stakeholder is notified, every gap is flagged before Day 1, and HR leadership has full visibility throughout. Personal documents are uploaded by the new hire before they arrive. The audit trail is automatic. Closing the case requires nothing more than the manager confirming the probation outcome at the 90-day mark.
+A single system where every onboarding record is created automatically when an offer is signed, every task has an owner and a due date, every stakeholder is notified, every gap is flagged before Day 1, and HR leadership has full visibility throughout. Personal documents are uploaded by the new hire before they arrive. The audit trail is automatic. Closing the onboarding record requires nothing more than the manager confirming the probation outcome at the 90-day mark.
 
 ---
 
