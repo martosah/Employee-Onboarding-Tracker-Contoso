@@ -6,13 +6,13 @@ The system serves seven roles. Each role has a defined scope of access and respo
 
 ## 1. HR Business Partner (HRBP)
 
-Owns onboarding cases end-to-end. Submits the New Hire Form when an offer is signed, monitors progress, chases gaps, and approves uploaded documents. Each new hire is assigned to one HRBP for the duration of their case.
+Owns onboarding record end-to-end. Submits the New Hire Form when an offer is signed, monitors progress, chases gaps, and approves uploaded documents. Each new hire is assigned to one HRBP for the duration of their onboarding.
 
 ---
 
 ## 2. Head of HR
 
-Has full visibility across all onboarding cases. Reviews dashboards, monitors performance metrics, and steps in when escalations require senior HR intervention. Can reopen closed cases when corrections are needed.
+Has full visibility across all onboardings. Reviews dashboards, monitors performance metrics, and steps in when escalations require senior HR intervention. Can reopen closed onboarding records when corrections are needed.
 
 ---
 
