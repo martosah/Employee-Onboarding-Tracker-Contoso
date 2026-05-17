@@ -67,4 +67,4 @@ Optional AI chatbot embedded in the new hire portal. Answers common questions ("
 
 ---
 
-⬅️ Back to: **[Main README](../README.md)**
+➡️ Next: **[Section 9 — Process Flow Diagram](../09-Process-Flow-Diagram)**
