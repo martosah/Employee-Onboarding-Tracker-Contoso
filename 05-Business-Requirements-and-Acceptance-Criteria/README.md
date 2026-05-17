@@ -4,26 +4,26 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 ---
 
-## Group 1 — Case Initiation
+## Group 1 — record Initiation
 
-### BR-01 — HR Business Partners can create onboarding cases when an offer is signed
+### BR-01 — HR Business Partners can create onboarding record when an offer is signed
 
-**Statement:** HR Business Partners must be able to initiate an onboarding case by submitting a New Hire Form as soon as the new hire's offer letter is signed and returned.
+**Statement:** HR Business Partners must be able to initiate an onboarding record by submitting a New Hire Form as soon as the new hire's offer letter is signed and returned.
 
 **Acceptance Criteria:**
 
 1. Given a logged-in HR Business Partner, when they open the New Hire Form, they should see all required fields for capturing the new hire's details.
-2. Given a completed and submitted form, a unique Onboarding Case should be created with status Not Started and timestamped automatically.
-3. Given a newly created case, the submitting HRBP should be automatically assigned as the case owner.
-4. Given a successful submission, a confirmation message should display the case ID and new hire name.
+2. Given a completed and submitted form, a unique onboarding record should be created with status Not Started and timestamped automatically.
+3. Given a newly created record, the submitting HRBP should be automatically assigned as the record owner.
+4. Given a successful submission, a confirmation message should display the record ID and new hire name.
 
 **Priority:** Must-have
 
 ---
 
-### BR-02 — New Hire Form must validate all critical information before a case is created
+### BR-02 — New Hire Form must validate all critical information before a record is created
 
-**Statement:** The system must enforce that all critical onboarding information is captured and valid before allowing a case to be created.
+**Statement:** The system must enforce that all critical onboarding information is captured and valid before allowing a record to be created.
 
 **Acceptance Criteria:**
 
@@ -38,13 +38,13 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 ## Group 2 — Task Generation and Assignment
 
-### BR-03 — Standard onboarding tasks must be auto-generated when a case is created
+### BR-03 — Standard onboarding tasks must be auto-generated when a record is created
 
-**Statement:** Once an Onboarding Case is created, the system must automatically generate the standard set of onboarding tasks for the new hire's role, with due dates calculated relative to the Start Date.
+**Statement:** Once an onboarding record is created, the system must automatically generate the standard set of onboarding tasks for the new hire's role, with due dates calculated relative to the Start Date.
 
 **Acceptance Criteria:**
 
-1. Given a newly created case, all universal onboarding tasks must be auto-generated for the new hire.
+1. Given a newly created record, all universal onboarding tasks must be auto-generated for the new hire.
 2. Given a new hire's specific job role, additional role-specific tasks must be auto-generated; tasks for other roles must be excluded.
 3. Given each generated task, the due date must be calculated as Start Date plus the template's offset.
 4. Given each generated task, it must reference its source template for traceability and default to status Not Started.
@@ -62,7 +62,7 @@ Each business requirement is paired with its acceptance criteria — the testabl
 1. Given an IT-related task, it must be assigned to the IT Administrator.
 2. Given a Facilities task, it must be assigned to the Facilities Officer.
 3. Given a Compliance task, it must be assigned to the Compliance Officer.
-4. Given an HR task, it must be assigned to the HR Business Partner who owns the case.
+4. Given an HR task, it must be assigned to the HR Business Partner who owns the record.
 5. Given the primary assignee is on leave, the task must automatically fall back to the designated Backup Staff.
 
 **Priority:** Must-have
@@ -94,7 +94,7 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 1. Given a task is overdue on its due date, a reminder email must be sent to the assignee.
 2. Given a task is one day overdue, the assignee must receive a second reminder with the HRBP copied.
-3. Given a task is three days overdue, the Head of HR must be emailed with full case context.
+3. Given a task is three days overdue, the Head of HR must be emailed with full record context.
 4. Given a task is marked complete at any point, all reminder and escalation chains must stop immediately.
 5. Given an overdue task, it must display with a clear visual indicator (red flag) on the dashboard.
 
@@ -121,21 +121,21 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 ### BR-08 — Equipment must be tracked when issued during onboarding
 
-**Statement:** The system must record all equipment issued to a new hire and link it to their onboarding case and employee profile.
+**Statement:** The system must record all equipment issued to a new hire and link it to their onboarding record and employee profile.
 
 **Acceptance Criteria:**
 
 1. Given an equipment-related task being marked complete, the assignee must be required to enter equipment type and serial number before save is allowed.
 2. Given a completed equipment task, an equipment record must be created and automatically linked to the new hire and the originating task.
-3. Given a new hire, multiple equipment records (laptop, headset, monitor, etc.) may be associated with their onboarding case.
+3. Given a new hire, multiple equipment records (laptop, headset, monitor, etc.) may be associated with their onboarding record.
 4. Given an equipment record, the serial number must be unique across the entire system.
-5. Given an equipment record, it must be visible on both the new hire's profile and the case detail view.
+5. Given an equipment record, it must be visible on both the new hire's profile and the record detail view.
 
 **Priority:** Must-have
 
 ---
 
-## Group 5 — Day-1 Readiness and Case Visibility
+## Group 5 — Day-1 Readiness and record Visibility
 
 ### BR-09 — The system must confirm Day-1 readiness before the new hire's start date
 
@@ -144,10 +144,10 @@ Each business requirement is paired with its acceptance criteria — the testabl
 **Acceptance Criteria:**
 
 1. Given three days before a new hire's Start Date, the system must run a readiness check on all critical tasks.
-2. Given any incomplete critical tasks, the case must be flagged At Risk and HR leadership (HRBP and Head of HR) emailed the outstanding list.
-3. Given all critical tasks are complete, the case must be flagged Ready.
+2. Given any incomplete critical tasks, the record must be flagged At Risk and HR leadership (HRBP and Head of HR) emailed the outstanding list.
+3. Given all critical tasks are complete, the record must be flagged Ready.
 4. Given the day before the Start Date, a final readiness check must run and escalate any remaining gaps to the Reporting Manager.
-5. Given any readiness status, it must be visible on both the case detail view and the dashboard.
+5. Given any readiness status, it must be visible on both the record detail view and the dashboard.
 
 **Priority:** Must-have
 
@@ -159,28 +159,28 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 **Acceptance Criteria:**
 
-1. Given a logged-in HRBP, the dashboard must show only cases assigned to them by default, with a toggle to view all if needed.
-2. Given a logged-in Head of HR, the dashboard must show all cases organisation-wide.
-3. Given the dashboard, it must display total active cases, cases starting in the next 7 days, overdue task count, and Day-1 Readiness summary.
-4. Given dashboard filters, users must be able to filter by Department, Start Date range, HRBP, and Case Status.
-5. Given a case row on the dashboard, clicking it must open the full case detail view.
+1. Given a logged-in HRBP, the dashboard must show only records assigned to them by default, with a toggle to view all if needed.
+2. Given a logged-in Head of HR, the dashboard must show all records organisation-wide.
+3. Given the dashboard, it must display total active records, records starting in the next 7 days, overdue task count, and Day-1 Readiness summary.
+4. Given dashboard filters, users must be able to filter by Department, Start Date range, HRBP, and record Status.
+5. Given a record row on the dashboard, clicking it must open the full record detail view.
 
 **Priority:** Must-have
 
 ---
 
-## Group 6 — Case Closure and Audit
+## Group 6 — record Closure and Audit
 
-### BR-11 — Cases must auto-close when all tasks and probation requirements are met
+### BR-11 — records must auto-close when all tasks and probation requirements are met
 
-**Statement:** The system must mark an onboarding case as Completed only when all its tasks are completed and the probation outcome is recorded.
+**Statement:** The system must mark an onboarding record as Completed only when all its tasks are completed and the probation outcome is recorded.
 
 **Acceptance Criteria:**
 
-1. Given all tasks on a case are marked Completed and the Probation Outcome is recorded, the case must auto-close.
-2. Given an auto-closed case, the Case Closed Date must be recorded automatically.
-3. Given a closed case, a closure notification must be sent to the HRBP, Reporting Manager, and the new hire.
-4. Given a closed case, it must become read-only for everyone except the Head of HR.
+1. Given all tasks on a record are marked Completed and the Probation Outcome is recorded, the record must auto-close.
+2. Given an auto-closed record, the record Closed Date must be recorded automatically.
+3. Given a closed record, a closure notification must be sent to the HRBP, Reporting Manager, and the new hire.
+4. Given a closed record, it must become read-only for everyone except the Head of HR.
 
 **Priority:** Must-have
 
@@ -188,12 +188,12 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 ### BR-12 — Every change must be captured in a tamper-proof audit trail
 
-**Statement:** The system must maintain a complete, tamper-proof history of all changes made to cases and tasks.
+**Statement:** The system must maintain a complete, tamper-proof history of all changes made to records and tasks.
 
 **Acceptance Criteria:**
 
-1. Given any change to a case, task, employee, equipment, or document record, the system must log the user, timestamp, field changed, old value, and new value.
-2. Given a case detail view, the audit log must be viewable in a dedicated tab.
+1. Given any change to a record, task, employee, equipment, or document record, the system must log the user, timestamp, field changed, old value, and new value.
+2. Given a record detail view, the audit log must be viewable in a dedicated tab.
 3. Given an audit log entry, it must not be editable or deletable by any user, including administrators.
 4. Given audit data, it must be retained for at least two years.
 
@@ -226,7 +226,7 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 **Acceptance Criteria:**
 
-1. Given a newly created case, the new hire must receive a welcome email with a secure portal link.
+1. Given a newly created record, the new hire must receive a welcome email with a secure portal link.
 2. Given a logged-in new hire, they must be able to view their Start Date, Reporting Manager, and Day-1 logistics.
 3. Given a logged-in new hire, they must be able to upload required documents (BVN, NIN, academic certificate, bank details).
 4. Given a document upload, the HRBP must receive an immediate notification to review and approve.
@@ -240,15 +240,15 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 ### BR-15 — The system must track 30/60/90-day probation milestones after the Start Date
 
-**Statement:** The system must track 30/60/90-day milestones following the new hire's Start Date and capture the final probation outcome before the case can be fully closed.
+**Statement:** The system must track 30/60/90-day milestones following the new hire's Start Date and capture the final probation outcome before the record can be fully closed.
 
 **Acceptance Criteria:**
 
-1. Given a newly created case, three probation milestone tasks must be auto-created for 30, 60, and 90 days after Start Date.
+1. Given a newly created record, three probation milestone tasks must be auto-created for 30, 60, and 90 days after Start Date.
 2. Given each milestone task, it must be assigned to the new hire's Reporting Manager.
 3. Given a milestone due date, the Reporting Manager must be reminded three days in advance.
 4. Given the 90-day milestone task, it cannot be marked complete unless a Probation Outcome (Passed, Extended, or Failed) is selected.
-5. Given a case with no recorded Probation Outcome, it cannot auto-close even if all tasks are otherwise complete.
+5. Given a record with no recorded Probation Outcome, it cannot auto-close even if all tasks are otherwise complete.
 
 **Priority:** Must-have
 
@@ -262,10 +262,10 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 **Acceptance Criteria:**
 
-1. Given an HRBP, they must only access cases assigned to them.
+1. Given an HRBP, they must only access records assigned to them.
 2. Given operational staff (IT, Facilities, Compliance), they must only access tasks assigned to them.
-3. Given the Head of HR, they must have full access across all cases.
-4. Given a new hire on the portal, they must only access their own case data.
+3. Given the Head of HR, they must have full access across all records.
+4. Given a new hire on the portal, they must only access their own record data.
 
 **Priority:** Must-have
 
@@ -277,7 +277,7 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 **Acceptance Criteria:**
 
-1. Given a form submission, case creation must complete within 5 seconds.
+1. Given a form submission, record creation must complete within 5 seconds.
 2. Given a dashboard request, it must load within 3 seconds.
 
 **Priority:** Must-have
@@ -315,7 +315,7 @@ Each business requirement is paired with its acceptance criteria — the testabl
 
 **Acceptance Criteria:**
 
-1. Given an HRBP or Reporting Manager on a mobile device, they must be able to view cases, update tasks, and approve documents.
+1. Given an HRBP or Reporting Manager on a mobile device, they must be able to view records, update tasks, and approve documents.
 
 **Priority:** Should-have
 
