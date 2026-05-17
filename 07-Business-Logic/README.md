@@ -20,19 +20,19 @@ The Employee Number Alternate Key prevents duplicate employee numbers.
 
 ---
 
-## Case and Task Generation
+## record and Task Generation
 
-### BL-05 — Case Auto-Creation
-When an Employee record is inserted, create one Onboarding Case with status Not Started, the current timestamp, and the submitting user as Assigned HRBP.
+### BL-05 — record Auto-Creation
+When an Employee record is inserted, create one onboarding record with status Not Started, the current timestamp, and the submitting user as Assigned HRBP.
 
 ### BL-06 — Task Generation from Templates
-When a case is created, generate one Onboarding Task per matching Task Template — templates that apply to all roles, plus templates matching the new hire's job role. Each task's due date is calculated as Start Date plus the template's offset.
+When a record is created, generate one Onboarding Task per matching Task Template — templates that apply to all roles, plus templates matching the new hire's job role. Each task's due date is calculated as Start Date plus the template's offset.
 
 ### BL-07 — Assignee Resolution
 For each generated task, resolve the assignee by Staff Role. If the primary assignee is on leave, fall back to their Backup Staff. If no backup is available, escalate to the role's department head.
 
 ### BL-08 — Probation Tasks
-On case creation, create three additional tasks for 30, 60, and 90 days after Start Date, assigned to the Reporting Manager.
+On record creation, create three additional tasks for 30, 60, and 90 days after Start Date, assigned to the Reporting Manager.
 
 ---
 
@@ -61,7 +61,7 @@ When a new hire uploads a document, notify the Assigned HRBP.
 ## Day-1 Readiness
 
 ### BL-15 — Three-Day Readiness Check
-At 8:00 AM each day, evaluate every case where Start Date is three days away. If all critical tasks are Completed, set Day-1 Readiness to Ready. Otherwise, set to At Risk and email the HRBP and Head of HR with the list of outstanding critical tasks.
+At 8:00 AM each day, evaluate every record where Start Date is three days away. If all critical tasks are Completed, set Day-1 Readiness to Ready. Otherwise, set to At Risk and email the HRBP and Head of HR with the list of outstanding critical tasks.
 
 ### BL-16 — One-Day Final Check
 At 4:00 PM the day before Start Date, repeat the readiness check. If still At Risk, escalate to the HRBP, Head of HR, and Reporting Manager.
@@ -81,10 +81,10 @@ A user cannot change a task's status from Completed to anything else unless they
 
 ---
 
-## Case Closure
+## record Closure
 
 ### BL-20 — Auto-Closure
-A case is set to Completed when 100% of its tasks are Completed and a Probation Outcome is recorded. Set Case Closed Date and notify the HRBP, Reporting Manager, and new hire. Make the case read-only except for Head of HR.
+A record is set to Completed when 100% of its tasks are Completed and a Probation Outcome is recorded. Set record Closed Date and notify the HRBP, Reporting Manager, and new hire. Make the record read-only except for Head of HR.
 
 ### BL-21 — Probation Outcome Required
 The 90-day probation task cannot be saved as Completed unless a Probation Outcome (Passed, Extended, or Failed) is selected.
@@ -106,8 +106,8 @@ When a document is set to Rejected, email the new hire with the rejection reason
 ### BL-24 — Days Until Start Date
 On the Employee record: Start Date minus Today.
 
-### BL-25 — Case Completion Percentage
-On the Onboarding Case: completed task count divided by total task count, multiplied by 100.
+### BL-25 — record Completion Percentage
+On the onboarding record: completed task count divided by total task count, multiplied by 100.
 
 ### BL-26 — Days Overdue
 On the Onboarding Task: zero if Completed, otherwise the greater of zero and Today minus Due Date.
@@ -117,13 +117,13 @@ On the Onboarding Task: zero if Completed, otherwise the greater of zero and Tod
 ## Access Control and Audit
 
 ### BL-27 — Row-Level Access
-HRBPs see and edit only cases where they are the Assigned HRBP. Operational staff see and edit only tasks assigned to them. Reporting Managers see their direct reports' cases as read-only. Head of HR sees everything.
+HRBPs see and edit only records where they are the Assigned HRBP. Operational staff see and edit only tasks assigned to them. Reporting Managers see their direct reports' records as read-only. Head of HR sees everything.
 
 ### BL-28 — Self-Service Scope
-A new hire sees only their own case as read-only. They can write only to their own document records that are still in Pending Review.
+A new hire sees only their own record as read-only. They can write only to their own document records that are still in Pending Review.
 
 ### BL-29 — Audit Logging
-Every change to Onboarding Case, Onboarding Task, Employee, Equipment, and New Hire Document is logged with user, timestamp, field changed, old value, and new value. Audit logs are immutable and retained for two years.
+Every change to onboarding record, Onboarding Task, Employee, Equipment, and New Hire Document is logged with user, timestamp, field changed, old value, and new value. Audit logs are immutable and retained for two years.
 
 ---
 
