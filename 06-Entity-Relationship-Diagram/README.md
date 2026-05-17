@@ -63,7 +63,7 @@ The data model consists of nine tables: four reference tables, four core transac
 | Personal Email | Email | |
 | Work Email | Email | Populated by IT |
 
-### Onboarding Case (transactional)
+### onboarding record (transactional)
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -81,7 +81,7 @@ The data model consists of nine tables: four reference tables, four core transac
 | Column | Type | Notes |
 | --- | --- | --- |
 | Task Number | Auto Number (TSK-001) | Primary Name |
-| Case | Lookup → Onboarding Case | Parental |
+| Case | Lookup → onboarding record | Parental |
 | Task Name | Single Line of Text | |
 | Assigned To | Lookup → Staff | |
 | Due Date | Date Only | |
@@ -108,7 +108,7 @@ The data model consists of nine tables: four reference tables, four core transac
 | Column | Type | Notes |
 | --- | --- | --- |
 | Document Title | Calculated | Employee Full Name + " — " + Document Type |
-| Case | Lookup → Onboarding Case | Parental |
+| Case | Lookup → onboarding record | Parental |
 | Document Type | Choice | BVN Slip, NIN Slip, Academic Certificate, Bank Details, Other |
 | File Attachment | File | |
 | Uploaded Date | Date and Time | |
@@ -126,15 +126,15 @@ The data model consists of nine tables: four reference tables, four core transac
 | Job Role | Employee | 1:N | Referential, Restrict Delete |
 | Job Role | Task Template | 1:N | Referential, Remove Link |
 | Staff | Employee (Manager) | 1:N | Referential |
-| Staff | Onboarding Case (HRBP) | 1:N | Referential |
+| Staff | onboarding record (HRBP) | 1:N | Referential |
 | Staff | Onboarding Task (Assignee) | 1:N | Referential |
 | Staff | Onboarding Task (Completed By) | 1:N | Referential |
 | Staff | Equipment (Issued By) | 1:N | Referential |
 | Staff | Staff (Backup) | 1:1 | Referential, self-reference |
-| Employee | Onboarding Case | 1:1 | Referential, unique constraint |
+| Employee | onboarding record | 1:1 | Referential, unique constraint |
 | Employee | Equipment | 1:N | Referential, Restrict Delete |
-| Onboarding Case | Onboarding Task | 1:N | Parental |
-| Onboarding Case | New Hire Document | 1:N | Parental |
+| onboarding record | Onboarding Task | 1:N | Parental |
+| onboarding record | New Hire Document | 1:N | Parental |
 | Task Template | Onboarding Task | 1:N | Referential, Remove Link |
 | Onboarding Task | Equipment | 1:0..1 | Referential |
 
