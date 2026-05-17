@@ -127,4 +127,4 @@ Every change to Onboarding Case, Onboarding Task, Employee, Equipment, and New H
 
 ---
 
-➡️ Next: **[Section 9 — Power Platform Components](../09-Power-Platform-Components)**
+➡️ Next: **[Section 8 — Power Platform Components](../08-Power-Platform-Components)**
