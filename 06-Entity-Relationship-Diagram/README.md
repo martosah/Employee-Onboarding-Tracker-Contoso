@@ -67,11 +67,11 @@ The data model consists of nine tables: four reference tables, four core transac
 
 | Column | Type | Notes |
 | --- | --- | --- |
-| Case Number | Auto Number (CASE-001) | Primary Name |
+| Record Number | Auto Number (REC-001) | Primary Name |
 | Employee | Lookup → Employee | Unique (1:1) |
-| Case Status | Choice | Not Started, In Progress, At Risk, Completed |
-| Case Opened Date | Date and Time | |
-| Case Closed Date | Date and Time | |
+| Record Status | Choice | Not Started, In Progress, At Risk, Completed |
+| Record Opened Date | Date and Time | |
+| Record Closed Date | Date and Time | |
 | Assigned HRBP | Lookup → Staff | |
 | Day-1 Readiness | Choice | Pending, Ready, At Risk |
 | Probation Outcome | Choice | Passed, Extended, Failed |
@@ -81,7 +81,7 @@ The data model consists of nine tables: four reference tables, four core transac
 | Column | Type | Notes |
 | --- | --- | --- |
 | Task Number | Auto Number (TSK-001) | Primary Name |
-| Case | Lookup → onboarding record | Parental |
+| Onboarding Record | Lookup → onboarding record | Parental |
 | Task Name | Single Line of Text | |
 | Assigned To | Lookup → Staff | |
 | Due Date | Date Only | |
@@ -108,7 +108,7 @@ The data model consists of nine tables: four reference tables, four core transac
 | Column | Type | Notes |
 | --- | --- | --- |
 | Document Title | Calculated | Employee Full Name + " — " + Document Type |
-| Case | Lookup → onboarding record | Parental |
+| Onboarding Record | Lookup → onboarding record | Parental |
 | Document Type | Choice | BVN Slip, NIN Slip, Academic Certificate, Bank Details, Other |
 | File Attachment | File | |
 | Uploaded Date | Date and Time | |
@@ -137,10 +137,6 @@ The data model consists of nine tables: four reference tables, four core transac
 | onboarding record | New Hire Document | 1:N | Parental |
 | Task Template | Onboarding Task | 1:N | Referential, Remove Link |
 | Onboarding Task | Equipment | 1:0..1 | Referential |
-
----
-
-```
 
 ---
 
