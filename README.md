@@ -21,6 +21,8 @@ The project is documented in two phases:
 - **Phase 1 — Design & Specification.** The problem, the people, the requirements and their acceptance criteria, the data model, the business rules, the component plan, and the end-to-end process flow. *(Sections 1–9.)*
 - **Phase 2 — Build & Delivery.** The implemented solution: Dataverse tables, the model-driven app, 17 Power Automate flows, a business process flow, the security model, an operational metric (Preparation Lead Time), and the solution-hygiene and export work that makes it deployable. *(Sections 10–16.)*
 
+This is a continuing build. The data, app, automation, process, and security layers are live; further components — most notably the Power Pages self-service portal — remain to be built in later phases (see Build Status below).
+
 ---
 
 ## Build Status
