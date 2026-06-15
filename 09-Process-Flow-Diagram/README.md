@@ -46,4 +46,14 @@ All three streams must complete before the Day-1 Readiness Check can return Read
 
 ---
 
-⬅️ Back to: **[Main README](../README.md)**
+## End of Phase 1 — Crossing into the Build
+
+Sections 1–9 complete the **design and specification** of the Employee Onboarding Tracker: the problem, the people, the requirements, the data model, the business rules, the chosen components, and the end-to-end process. With the design settled, the project moves into **Phase 2 — Build & Delivery**, where the specification becomes a working solution on the Power Platform.
+
+Phase 2 begins by building the first of the planned Power Platform components: the **Dataverse data model**, the **model-driven app** (the primary interface for HR and operational staff), and the **Power Automate** automation that drives the process. It then covers the business process flow, the security model, an operational metric, and the solution-hygiene and export work that makes the solution deployable. Remaining components specified here — most notably the Power Pages self-service portal — are planned for later phases.
+
+Section 10 opens the build.
+
+---
+
+➡️ Next: **[Section 10 — Build Overview and Environment](../10-Build-Overview-and-Environment)**
