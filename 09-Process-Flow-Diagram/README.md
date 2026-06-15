@@ -22,9 +22,7 @@ flowchart TD
     M -- Gaps remain --> O[At Risk: alert HRBP & Head of HR]
     O --> N
     N --> P[Day 1 / Induction]
-    P --> Q[Reporting Manager: probation tasks 30/60/90]
-    Q --> R[Probation outcome recorded]
-    R --> S[Auto-Close Record: Completed]
+    P --> Q[Auto-Close Record: Completed]
 
     classDef planned stroke-dasharray: 5 5,fill:#f5f5f5,color:#333;
 ```
