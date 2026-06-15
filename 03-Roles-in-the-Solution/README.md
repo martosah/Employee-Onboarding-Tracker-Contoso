@@ -54,7 +54,7 @@ Accesses a self-service portal to view their own onboarding progress, see Day-1 
 | Laptop, email, AD account, software access | IT Administrator |
 | Desk, access card, office tour, equipment shipping | Facilities Officer |
 | Contract, NDA, background check, regulatory training | Compliance Officer |
-| Onboarding check in, training facilitation | Reporting Manager |
+| Onboarding check in, training of new hires | Reporting Manager |
 | Document upload, profile review | New Hire |
 
 ---
