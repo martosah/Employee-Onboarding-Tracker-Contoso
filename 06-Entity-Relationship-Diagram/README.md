@@ -5,6 +5,116 @@ The data model consists of nine tables: four reference tables, four core transac
 ![Employee Onboarding Tracker ERD](./erd_onboarding_tracker.png)
 
 ---
+```mermaid
+erDiagram
+    DEPARTMENT ||--o{ JOB_ROLE : "groups"
+    DEPARTMENT ||--o{ EMPLOYEE : "employs"
+    DEPARTMENT ||--o{ STAFF : "employs"
+    JOB_ROLE ||--o{ EMPLOYEE : "classifies"
+    JOB_ROLE ||--o{ TASK_TEMPLATE : "scopes"
+    STAFF ||--o{ STAFF : "backup"
+    STAFF ||--o{ EMPLOYEE : "manages"
+    STAFF ||--o{ ONBOARDING_RECORD : "owns as HRBP"
+    STAFF ||--o{ ONBOARDING_TASK : "assigned / completed"
+    STAFF ||--o{ EQUIPMENT : "issues"
+    EMPLOYEE ||--o{ ONBOARDING_RECORD : "has (one per hire)"
+    EMPLOYEE ||--o{ EQUIPMENT : "assigned"
+    TASK_TEMPLATE ||--o{ ONBOARDING_TASK : "generates"
+    ONBOARDING_RECORD ||--o{ ONBOARDING_TASK : "parents (cascade)"
+    ONBOARDING_RECORD ||--o{ NEW_HIRE_DOCUMENT : "parents (cascade)"
+    ONBOARDING_TASK ||--o{ EQUIPMENT : "relates"
+
+    DEPARTMENT {
+        guid DepartmentId PK
+        string DepartmentName
+        string DepartmentHead
+    }
+    JOB_ROLE {
+        guid JobRoleId PK
+        string RoleName
+        lookup Department FK
+    }
+    STAFF {
+        guid StaffId PK
+        string FullName
+        string WorkEmail
+        lookup JobRole FK
+        lookup Department FK
+        lookup BackupStaff FK
+        lookup AppUser FK
+    }
+    EMPLOYEE {
+        guid EmployeeId PK
+        string EmployeeNumber
+        string FullName
+        date StartDate
+        lookup JobRole FK
+        lookup Department FK
+        lookup ReportingManager FK
+        choice EmploymentType
+        string WorkLocation
+        string PersonalEmail
+        string WorkEmail
+    }
+    TASK_TEMPLATE {
+        guid TaskTemplateId PK
+        string TaskName
+        lookup AppliesToJobRole FK
+        choice DefaultAssigneeRole
+        int DueDateOffsetDays
+        bool IsCriticalForDay1
+        bool RequiresEquipment
+    }
+    ONBOARDING_RECORD {
+        guid OnboardingRecordId PK
+        string RecordNumber
+        lookup Employee FK
+        lookup AssignedHRBP FK
+        choice RecordStatus
+        choice Day1Readiness
+        datetime RecordOpenedDate
+        datetime RecordClosedDate
+        choice ProbationOutcome
+        int PreparationLeadTimeDays
+        rollup TotalTasks
+        rollup CompletedTasks
+    }
+    ONBOARDING_TASK {
+        guid OnboardingTaskId PK
+        string TaskNumber
+        string TaskName
+        lookup OnboardingRecord FK
+        lookup TaskTemplate FK
+        lookup AssignedTo FK
+        lookup CompletedBy FK
+        date DueDate
+        choice Status
+        bool IsCriticalForDay1
+        date NewHireStartDate
+        datetime CompletedDate
+        string Notes
+    }
+    NEW_HIRE_DOCUMENT {
+        guid NewHireDocumentId PK
+        string DocumentTitle
+        lookup OnboardingRecord FK
+        choice DocumentType
+        choice Status
+        datetime UploadedDate
+    }
+    EQUIPMENT {
+        guid EquipmentId PK
+        string SerialNumber
+        choice EquipmentType
+        lookup AssignedTo FK
+        lookup IssuedBy FK
+        lookup RelatedTask FK
+        date DateIssued
+    }
+```
+
+> The Staff → Onboarding Task line covers two lookups (Assigned To and Completed By), shown as one relationship for readability; both appear as FKs on Onboarding Task. Parental relationships (Onboarding Record → Task and → Document) cascade on delete; all other lookups use Remove Link or Restrict per the as-built model.
+---
 
 ## Tables
 
