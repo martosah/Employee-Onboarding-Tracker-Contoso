@@ -31,8 +31,6 @@ The system coordinates the handoffs between these four areas so that nothing is 
 - Tracking task status and equipment issued
 - Allowing new hires to upload required personal documents before Day 1
 - Confirming Day-1 readiness and flagging gaps in advance
-- Tracking 30/60/90-day probation milestones
-- Closing the onboarding record once probation is passed
 
 ---
 
