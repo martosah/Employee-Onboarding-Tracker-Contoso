@@ -51,6 +51,7 @@ The solution contains the following components, all built in Phase 2:
 | Connection references | 4 | Externalised connections (see below) |
 
 ---
+
 ## The Model-Driven App — Primary Interface
 
 The model-driven app **Employee Onboarding Tracker** is the primary interface for HR and operational staff. It hosts the New Hire Form, record detail forms, task forms, dashboards, and views, organised into a site map with three working areas (Daily Work, People & Assets, Reference Data) plus a Home area for dashboards.
@@ -59,11 +60,6 @@ It serves every role in the process — HR Business Partners, Head of HR, IT Adm
 
 ---
 
-## Project Status — A Continuing Build
-
-This solution is a living project, not a finished product. Phase 2 delivered the data model, the model-driven app, the automation, the business process flow, and the security model. Further Power Platform components remain to be built in later phases — most notably the **Power Pages self-service portal** for new-hire document upload (specified in [Section 8](../08-Power-Platform-Components)), along with the interactive operational dashboards and other enhancements noted throughout these sections. The repository will continue to grow as those components are built.
-
----
 ## Environment Variables
 
 Environment variables hold configuration that would change between environments, so the same solution can be deployed elsewhere by editing values rather than editing flows.
@@ -106,6 +102,12 @@ User access is granted through **Dataverse Owner teams**, not direct per-user ro
 In a full production setting this would be taken one step further — the Dataverse teams linked to Microsoft Entra security groups so that IT's existing group management governs membership. That is documented as the production pattern; the Owner-team model here demonstrates the same access outcome without the external dependency.
 
 > **Note on user identity in automation.** Task ownership is set by reading each staff member's system-user identity from an **App User** lookup column on the Staff table, rather than calling the system-user metadata endpoint at run time. This design decision — and why it was made — is covered in Section 12.
+
+---
+
+## Project Status — A Continuing Build
+
+This solution is a living project, not a finished product. Phase 2 delivered the data model, the model-driven app, the automation, the business process flow, and the security model. Further Power Platform components remain to be built in later phases — most notably the **Power Pages self-service portal** for new-hire document upload (specified in [Section 8](../08-Power-Platform-Components)), along with the interactive operational dashboards and other enhancements noted throughout these sections. The repository will continue to grow as those components are built.
 
 ---
 
