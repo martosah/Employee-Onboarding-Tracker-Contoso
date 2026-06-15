@@ -68,7 +68,7 @@ All three streams must complete before the Day-1 Readiness Check can return Read
 
 ---
 
-## End of Phase 1 — Crossing into the Build
+## End of Phase 1 — Crossing into the Build (Phase 2)
 
 Sections 1–9 complete the **design and specification** of the Employee Onboarding Tracker: the problem, the people, the requirements, the data model, the business rules, the chosen components, and the end-to-end process. With the design settled, the project moves into **Phase 2 — Build & Delivery (Part 1)**, where the specification becomes a working solution on the Power Platform.
 
