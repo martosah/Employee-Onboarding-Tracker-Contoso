@@ -19,7 +19,7 @@ A working Dataverse application that replaces the spreadsheets with a single sou
 The project is documented in two phases:
 
 - **Phase 1 — Design & Specification.** The problem, the people, the requirements and their acceptance criteria, the data model, the business rules, the component plan, and the end-to-end process flow. *(Sections 1–9.)*
-- - **Phase 2 — Building the Solution (Part 1).** The first components of the planned solution, built to solve the onboarding problem: the **Dataverse** data model, the **model-driven app** (the primary interface), and the **Power Automate** automation — plus the business process flow, security model, an operational metric (Preparation Lead Time), and the solution-hygiene and export work that makes it deployable. *(Sections 10–16.)* Remaining components, including the **Power Pages** self-service portal, follow in later phases. (see Build Status below).
+- **Phase 2 — Building the Solution (Part 1).** The first components of the planned solution, built to solve the onboarding problem: the **Dataverse** data model, the **model-driven app** (the primary interface), and the **Power Automate** automation — plus the business process flow, security model, an operational metric (Preparation Lead Time), and the solution-hygiene and export work that makes it deployable. *(Sections 10–16.)* Remaining components, including the **Power Pages** self-service portal, follow in later phases. (see Build Status below).
 
 ---
 
