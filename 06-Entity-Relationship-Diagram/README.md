@@ -2,9 +2,8 @@
 
 The data model consists of nine tables: four reference tables, four core transactional tables, and one supporting transactional table for documents.
 
-![Employee Onboarding Tracker ERD](./erd_onboarding_tracker.png)
-
 ---
+
 ```mermaid
 erDiagram
     DEPARTMENT ||--o{ JOB_ROLE : "groups"
