@@ -40,7 +40,7 @@ The flow runs left to right across five swim lanes, one per role:
 | 2 | HR Business Partner | Submits the New Hire Form, reviews documents, addresses readiness gaps |
 | 3 | System (Power Platform) | Validates, creates the record, generates and assigns tasks, runs readiness checks, auto-closes |
 | 4 | Operations (IT, Facilities, Compliance) | Executes assigned tasks in parallel |
-| 5 | Reporting Manager | Conducts 30/60/90-day check-ins and records probation outcome |
+| 5 | Reporting Manager | Onboarding Progress check-in |
 
 ---
 
