@@ -3,9 +3,33 @@
 The end-to-end onboarding process from offer signing through 90-day probation closure, shown as a BPMN-style swim-lane diagram organised by role.
 
 ---
+```mermaid
+flowchart TD
+    A[Offer accepted: Employee created] --> B[Auto-Create Onboarding Record]
+    B --> C[Generate Onboarding Tasks<br/>stamp Preparation Lead Time<br/>run at-intake risk check]
+    C --> D{Lead time below threshold?}
+    D -- Yes --> E[Flag At Risk + notify HRBP]
+    D -- No --> F[Send welcome email to new hire]
+    E --> F
+    F --> G[New hire uploads documents via portal<br/>PLANNED - Power Pages]:::planned
+    G --> H[Notify HRBP to review documents]
+    H --> I[Operations execute assigned tasks<br/>IT / Facilities / Compliance]
+    I --> J[Provision equipment]
+    J --> K[Set Record In Progress on first activity]
+    K --> L[Scheduled reminders & overdue escalation]
+    L --> M{Day-1 Readiness Check<br/>3 days before start}
+    M -- All critical tasks done --> N[Day 1 Readiness = Ready<br/>BPF advances]
+    M -- Gaps remain --> O[At Risk: alert HRBP & Head of HR]
+    O --> N
+    N --> P[Day 1 / Induction]
+    P --> Q[Reporting Manager: probation tasks 30/60/90]
+    Q --> R[Probation outcome recorded]
+    R --> S[Auto-Close Record: Completed]
 
-![Employee Onboarding Tracker Process Flow](./Employee_Onboarding_Tracker_Process_Flow_16x9.png)
+    classDef planned stroke-dasharray: 5 5,fill:#f5f5f5,color:#333;
+```
 
+> Reflects the implemented (as-built) process. The document-upload step via the Power Pages portal is shown dashed because that component is planned, not yet built — see Sections 10 and 16.
 ---
 
 ## Reading the Diagram
