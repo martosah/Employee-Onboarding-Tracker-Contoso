@@ -36,7 +36,7 @@ Executes compliance tasks: contract preparation, NDA execution, background check
 
 ## 6. Reporting Manager
 
-The new hire's direct line manager. Reviews their team's onboarding progress, owns the 30/60/90-day probation milestones, conducts probation check-ins, and records the final probation outcome at Day 90.
+The new hire's direct line manager. Reviews their team's onboarding progress.
 
 ---
 
@@ -54,7 +54,7 @@ Accesses a self-service portal to view their own onboarding progress, see Day-1 
 | Laptop, email, AD account, software access | IT Administrator |
 | Desk, access card, office tour, equipment shipping | Facilities Officer |
 | Contract, NDA, background check, regulatory training | Compliance Officer |
-| 30/60/90-day check-ins, probation outcome | Reporting Manager |
+| Onboarding check in, training facilitation | Reporting Manager |
 | Document upload, profile review | New Hire |
 
 ---
