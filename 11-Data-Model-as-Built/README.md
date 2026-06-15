@@ -33,10 +33,10 @@ One Onboarding Record exists per new hire. It is the parent of that hire's tasks
 | Assigned HRBP | Lookup → Staff | The HR Business Partner who owns the record |
 | Probation Outcome | Choice | Manager's decision at the 90-day mark |
 | Preparation Lead Time (Days) | Whole number | Days between record opened and start date — added in Phase 2 (see Section 15) |
-| Total Tasks | Rollup | Count of related tasks |
-| Completed Tasks | Rollup | Count of related completed tasks |
+| Total Tasks | Rollup (whole number) | Count of related tasks |
+| Completed Tasks | Rollup (whole number) | Count of related completed tasks |
 
-The two rollup columns let the form and views show progress (e.g. 7 of 13 complete) without a flow having to maintain a counter.
+**Total Tasks** and **Completed Tasks** are rollup columns. Dataverse automatically creates a `_Date` (Last Updated On) and `_State` companion column for each rollup, which is why those appear alongside them in the table's column list. The rollups let the form and views show progress (e.g. 7 of 13 complete) without a flow having to maintain a counter, though they recalculate on a background schedule rather than instantly (see Section 16).
 
 ---
 
@@ -83,17 +83,20 @@ The individual work items, generated from templates against a specific Onboardin
 
 | Column | Type | Notes |
 | --- | --- | --- |
-| Task Number | Autonumber | `TSK-0001` format |
+| Task Number | Autonumber | Primary name, `TSK-0001` format |
 | Task Name | Text | Copied from the template at generation |
 | Onboarding Record | Lookup → Onboarding Record | **Parental** — the task belongs to the record |
 | Assigned To | Lookup → Staff | The owner who performs the task |
 | Completed By | Lookup → Staff | Who actually completed it |
+| Completed Date | Date & time | When it was completed |
 | Task Template | Lookup → Task Template | The template it was generated from |
-| Task Due Date | Date & time | Calculated from start date + offset |
+| Due Date | Date only | Calculated from start date + template offset |
 | Status | Choice | Not Started / In Progress / Completed |
 | Is Critical For Day 1 | Yes/No | Carried from the template |
+| New Hire Start Date | Date only | The hire's start date, stamped onto the task at generation |
+| Notes | Multiple lines of text | Free-text notes added by the assignee |
 
-New-hire context on the task form — start date, preparation lead time, record status, and Day-1 readiness — is surfaced through a **Quick View form** drawn from the parent Onboarding Record and Employee, rather than being copied into columns on the task. This keeps a single source of truth and avoids stale duplicated data; the trade-off (it requires task assignees to have read access to the parent record) is discussed in Section 14.
+**New Hire Start Date is stored on the task**, stamped at generation, so the assignee sees the deadline anchor without opening the parent. Broader new-hire context (record status, Day-1 readiness, preparation lead time) is surfaced on the task form through a **Quick View form** drawn from the parent Onboarding Record, rather than duplicated as columns. The trade-off — task assignees needing read access to the parent record for that Quick View to render — is discussed in Section 14.
 
 ---
 
@@ -105,7 +108,7 @@ New-hire context on the task form — start date, preparation lead time, record 
 | Job Role | Role catalogue | Primary name |
 | Staff | Internal people who perform onboarding work | Backup Staff (self-reference), App User (lookup → User), Staff Role |
 | New Hire Document | Documents uploaded for a hire | **Parental** to Onboarding Record; Document Type; Document Status |
-| Equipment | Assets issued to a hire | Issued By, Related Task, Assigned To (Employee) |
+| Equipment | Assets issued to a hire | Serial Number (primary), Equipment Type, Assigned To (→ Employee), Issued By (→ Staff), Date Issued, Related Task |
 
 The **App User** column on Staff is a deliberate design choice covered in Section 12 — it stores each staff member's system-user identity so flows can set task ownership reliably.
 
