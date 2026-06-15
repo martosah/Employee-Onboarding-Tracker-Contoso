@@ -51,7 +51,19 @@ The solution contains the following components, all built in Phase 2:
 | Connection references | 4 | Externalised connections (see below) |
 
 ---
+## The Model-Driven App — Primary Interface
 
+The model-driven app **Employee Onboarding Tracker** is the primary interface for HR and operational staff. It hosts the New Hire Form, record detail forms, task forms, dashboards, and views, organised into a site map with three working areas (Daily Work, People & Assets, Reference Data) plus a Home area for dashboards.
+
+It serves every role in the process — HR Business Partners, Head of HR, IT Administrators, Facilities Officers, Compliance Officers, and Reporting Managers — with each role seeing a tailored view of the data. In the build, those business roles are implemented as four Dataverse security roles (HR Business Partner, Head of HR, Operations Staff, Reporting Manager); the operational roles (IT, Facilities, Compliance) are served through the shared Operations Staff role. The full access model is covered in [Section 14](../14-Security-Model).
+
+---
+
+## Project Status — A Continuing Build
+
+This solution is a living project, not a finished product. Phase 2 delivered the data model, the model-driven app, the automation, the business process flow, and the security model. Further Power Platform components remain to be built in later phases — most notably the **Power Pages self-service portal** for new-hire document upload (specified in [Section 8](../08-Power-Platform-Components)), along with the interactive operational dashboards and other enhancements noted throughout these sections. The repository will continue to grow as those components are built.
+
+---
 ## Environment Variables
 
 Environment variables hold configuration that would change between environments, so the same solution can be deployed elsewhere by editing values rather than editing flows.
