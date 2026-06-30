@@ -1,14 +1,14 @@
 # 12. Automation and Flows
 
-The data model holds the information; the flows make the system *behave*. Seventeen Power Automate cloud flows turn a new Onboarding Record into a fully generated, assigned, notified, tracked, and self-closing onboarding case — with no manual chasing.
+The data model holds the information; the flows make the system *behave*. The solution has **22 Power Automate cloud flows in total** — **17 backend flows**, documented here, that turn a new Onboarding Record into a fully generated, assigned, notified, tracked, and self-closing onboarding case, and **5 portal flows**, added in Phase 2 Part 2, that drive the Power Pages document lifecycle (documented in [Section 18](../18-Document-Lifecycle-and-Portal-Automation)).
 
-This section groups the flows by what they do, then records the engineering decisions that made them work reliably. Several of those decisions came from real failures during the build and are documented honestly, because they are the kind of platform behaviour that isn't obvious until you hit it.
+This section groups the backend flows by what they do, then records the engineering decisions that made them work reliably. Several of those decisions came from real failures during the build and are documented honestly, because they are the kind of platform behaviour that isn't obvious until you hit it.
 
 ---
 
 ## How the Flows Fit Together
 
-The automation falls into seven functional groups:
+The 17 backend flows fall into seven functional groups:
 
 | Group | Flows | What it does |
 | --- | :---: | --- |
@@ -20,6 +20,8 @@ The automation falls into seven functional groups:
 | Equipment & Documents | 2 | Handles equipment provisioning and document naming |
 | Metric Maintenance | 2 | Maintains the Preparation Lead Time metric |
 
+A further five flows form an eighth group — **Portal Document Lifecycle** — covered separately in Section 18, because they belong to the Power Pages build rather than the internal solution.
+
 ---
 
 ## Flow Inventory
@@ -30,7 +32,7 @@ The automation falls into seven functional groups:
 | 2 | Generate Onboarding Tasks | Onboarding Record created | Generates tasks from matching templates, assigns owners, sets the HRBP owner, stamps lead time |
 | 3 | Notify Assignee – Task Created | Onboarding Task created | Emails the task owner |
 | 4 | Notify HRBP – Document Uploaded | New Hire Document created | Emails the record's HRBP to review the document |
-| 5 | Welcome New Hire – Record Created | Onboarding Record created | Sends the welcome email with the portal link |
+| 5 | Welcome New Hire – Record Created | Onboarding Record created | Sends the welcome email with the portal invite link |
 | 6 | Task Due-Date Reminder | Scheduled (daily) | Reminds owners of tasks due tomorrow |
 | 7 | Overdue Task Escalation | Scheduled (daily) | Chases overdue tasks, copies Head of HR |
 | 8 | Day-1 Readiness Check | Scheduled (daily) | Three days before start, flags records with incomplete critical tasks |
@@ -43,6 +45,22 @@ The automation falls into seven functional groups:
 | 15 | Equipment Provisioning Prompt | Onboarding Task created | Handles equipment-related tasks |
 | 16 | Document Title | New Hire Document created | Names the document (hire name + document type) |
 | 17 | Recalculate Preparation Lead Time | Employee modified (start date) | Re-stamps lead time when a start date changes |
+
+> Flow names carry no number prefix. During the portal build the naming was standardised so every flow is named purely by what it does (the descriptive name *is* the identifier), which keeps the inventory self-documenting and avoids implying an execution order that event-triggered flows don't have.
+
+---
+
+## The Portal Flows (Detailed in Section 18)
+
+Five flows added in Phase 2 Part 2 drive the Power Pages document lifecycle. They are listed here for inventory completeness; the full build, triggers, and portal-specific platform behaviours are in [Section 18](../18-Document-Lifecycle-and-Portal-Automation).
+
+| Flow | Trigger | Purpose |
+| --- | --- | --- |
+| Provision New Hire Portal Access | Onboarding Record created/updated | Creates or links the portal Contact and binds it to the record |
+| Reset Document Status on Re-upload | New Hire Document file added or modified | Flips a rejected document back to Pending Review and clears the review note on resubmission |
+| Archive Rejected Document & Free Slot | New Hire Document status → Rejected | Archives the rejected file to the Rejected Document Archive table and frees the upload slot |
+| Notify New Hire on Review Outcome | New Hire Document status modified | Emails the hire the approve/reject outcome with the review note |
+| Duplicate Document Catcher | New Hire Document created | Auto-rejects a new document if an active one of the same type already exists for that contact |
 
 ---
 
@@ -76,13 +94,13 @@ The **status automation** flows keep the record honest without anyone editing it
 
 ## Engineering Decisions
 
-These are the decisions and platform behaviours that shaped the flows. Each is recorded because it changed how a flow had to be built.
+These are the decisions and platform behaviours that shaped the backend flows. Each is recorded because it changed how a flow had to be built. (The portal flows carry their own distinct set of platform learnings — the two-step annotation commit, `@odata.bind` entity-set paths, and loop-guard triggers — documented in Section 18.)
 
 **Reading user identity from Staff, not the system-user metadata endpoint.** The original design resolved a task owner by looking up the system user via the connector's metadata endpoint. This failed repeatedly and unrecoverably with a metadata/deserialisation error — confirmed as an intermittent platform-side issue with the systemuser table, not a design flaw. The robust fix was to add an **App User** lookup column on the Staff table, populate each staff member's system-user identity once, and have the flow read the GUID directly from the Staff record it already fetches. Ownership is then set with a bind expression of the form `concat('systemusers(', <App User value>, ')')`. This eliminated the per-run metadata call entirely.
 
 **Parental-cascade ordering.** Because Onboarding Record → Onboarding Task is a parental relationship, setting the parent record's owner cascades that owner down to its child tasks. In the first build, the record owner was set *after* the task-creation loop, which overwrote every task's individual owner with the HRBP. The fix was to set the record owner **before** the loop, so per-task ownership survives.
 
-**Choice fields: numeric in conditions, label in updates.** Choice columns store an integer (prefixed `89107`, e.g. Not Started = `891070000`, In Progress = `891070001`). Two rules emerged: comparisons in a Condition must use the raw integer, because the human-readable FormattedValue annotation is **not available on trigger outputs**; but a Update a row action sets the choice using its dropdown **label**. Mixing these up was the cause of several early failures.
+**Choice fields: numeric in conditions, label in updates.** Choice columns store an integer (prefixed `89107`, e.g. Not Started = `891070000`, In Progress = `891070001`). Two rules emerged: comparisons in a Condition must use the raw integer, because the human-readable FormattedValue annotation is **not available on trigger outputs**; but an Update a row action sets the choice using its dropdown **label**. Mixing these up was the cause of several early failures.
 
 **Yes/No environment variables store the lowercase string "yes".** The Enable Email Notifications guard initially failed because the condition compared against `Yes` or `true`. A Yes/No environment variable stores its value as the lowercase string `yes` — the comparison had to match exactly.
 
