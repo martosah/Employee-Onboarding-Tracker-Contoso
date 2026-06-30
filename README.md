@@ -14,28 +14,33 @@ The result is missed handoffs across HR, IT, Facilities, and Compliance, no clea
 
 ## What This Project Delivers
 
-A working Dataverse application that replaces the spreadsheets with a single source of truth: one onboarding record per new hire, tasks generated automatically from a configurable template library, role-based assignment and notification, scheduled readiness checks, and a guided process that runs from pre-boarding through the end of probation.
+A working Power Platform solution that replaces the spreadsheets with a single source of truth: one onboarding record per new hire, tasks generated automatically from a configurable template library, role-based assignment and notification, scheduled readiness checks, a guided process that runs from pre-boarding through the end of probation, and a self-service portal where new hires upload their documents before Day 1.
 
-The project is documented in two phases:
+The project is documented in phases:
 
 - **Phase 1 — Design & Specification.** The problem, the people, the requirements and their acceptance criteria, the data model, the business rules, the component plan, and the end-to-end process flow. *(Sections 1–9.)*
-- **Phase 2 — Building the Solution (Part 1).** The first components of the planned solution, built to solve the onboarding problem: the **Dataverse** data model, the **model-driven app** (the primary interface), and the **Power Automate** automation — plus the business process flow, security model, an operational metric (Preparation Lead Time), and the solution-hygiene and export work that makes it deployable. *(Sections 10–16.)* Remaining components, including the **Power Pages** self-service portal, follow in later phases. (see Build Status below).
+- **Phase 2 — Building the Solution.** The specification becomes a working solution, in two parts:
+  - **Part 1 — Internal solution.** The **Dataverse** data model, the **model-driven app** (the primary interface for HR and operational staff), and the **Power Automate** automation — plus the business process flow, security model, an operational metric (Preparation Lead Time), and the solution-hygiene and export work that makes it deployable. *(Sections 10–16.)*
+  - **Part 2 — Power Pages portal.** The external-facing **self-service portal** for new hires: secure document upload, status visibility, HR review with approve/reject, document resubmission, automated notifications, per-hire data isolation, and duplicate-upload prevention. *(Sections 17–20.)*
+- **Phase 3 — Analytics & AI (future).** The two remaining specified components — **Power BI** executive dashboards and an optional **Copilot Studio** assistant — are designed but not yet built.
 
 ---
 
 ## Build Status
 
-Phase 1 designed the full target solution. Phase 2 built the data, app, and automation layers. The list below states exactly what is live versus what remains designed-but-not-yet-built, so the scope is unambiguous.
+Phase 1 designed the full target solution. Phase 2 built the internal solution (Part 1) and the new-hire portal (Part 2). The list below states exactly what is live versus what remains designed-but-not-yet-built, so the scope is unambiguous.
 
-| Component | Designed (Phase 1) | Built (Phase 2) | Notes |
+| Component | Designed (Phase 1) | Built | Notes |
 | --- | :---: | :---: | --- |
-| Dataverse data model | ✅ | ✅ | 9 custom tables, relationships, keys, business rules |
+| Dataverse data model | ✅ | ✅ | 10 custom tables, relationships, keys, business rules |
 | Model-Driven App | ✅ | ✅ | Forms, views, dashboards, site map |
-| Power Automate | ✅ | ✅ | 17 cloud flows across generation, notification, scheduling, status, and BPF sync |
+| Power Automate | ✅ | ✅ | 22 cloud flows across generation, notification, scheduling, status, BPF sync, and the portal document lifecycle |
 | Business Process Flow | ✅ | ✅ | Four-stage Onboarding Process |
-| Security model | ✅ | ✅ | 4 security roles, depth-based access matrix |
-| Managed/unmanaged solution export | — | ✅ | Packaged at v1.0.0.0 |
-| **Power Pages portal** | ✅ | ⛔ **Not yet built** | New-hire self-service document upload — specified in Section 8, planned for a later phase |
+| Security model | ✅ | ✅ | 4 Dataverse roles + portal table-permission security |
+| **Power Pages portal** | ✅ | ✅ | **Built (Phase 2 Part 2)** — document upload, HR review, resubmission, notifications, row-level isolation, duplicate prevention |
+| Solution export | — | ✅ | Tracker (backend) **v1.1.0.0** + Portal (site) **v1.0.0.0**, managed and unmanaged |
+| Power BI dashboards | ✅ | ⛔ **Phase 3** | Executive analytics — specified in Section 8, planned |
+| Copilot Studio assistant | ✅ | ⛔ **Phase 3** | Optional portal chatbot — specified in Section 8, planned |
 
 ---
 
@@ -57,19 +62,32 @@ Nine sections, each feeding into the next:
 
 ## The Build (Phase 2)
 
-Seven sections documenting the implemented solution:
+### Part 1 — Internal Solution
+
+Seven sections documenting the Dataverse, app, and automation layers:
 
 | # | Section | Focus |
 | --- | --- | --- |
 | 10 | [Build Overview and Environment](10-Build-Overview-and-Environment) | Environment, publisher, and full component inventory |
 | 11 | [Data Model as Built](11-Data-Model-as-Built) | How the ERD became real tables, relationships, and ownership rules |
-| 12 | [Automation and Flows](12-Automation-and-Flows) | The 17 flows, grouped by purpose, with key engineering decisions |
+| 12 | [Automation and Flows](12-Automation-and-Flows) | The backend flows, grouped by purpose, with key engineering decisions |
 | 13 | [Business Process Flow](13-Business-Process-Flow) | The four-stage Onboarding Process and its stage-gating logic |
 | 14 | [Security Model](14-Security-Model) | The access matrix, privilege-depth reasoning, and design trade-offs |
 | 15 | [Preparation Lead Time](15-Preparation-Lead-Time) | An operational metric, at-intake risk flagging, and how it is used |
 | 16 | [Solution Hygiene and ALM](16-Solution-Hygiene-and-ALM) | Solution cleanup, Solution Checker results, export, and deployment path |
 
-The packaged solution (managed and unmanaged, v1.0.0.0) is in [`/solution`](solution).
+### Part 2 — Power Pages Portal
+
+Four sections documenting the new-hire self-service portal:
+
+| # | Section | Focus |
+| --- | --- | --- |
+| 17 | [Power Pages Portal: Architecture and Pages](17-Power-Pages-Portal-Architecture-and-Pages) | The site, authentication and contact provisioning, the page set, and live data binding |
+| 18 | [Document Lifecycle and Portal Automation](18-Document-Lifecycle-and-Portal-Automation) | Upload → review → notify → resubmit → archive, and the five portal flows |
+| 19 | [Portal Security and Row-Level Isolation](19-Portal-Security-and-Row-Level-Isolation) | Table permissions, web roles, and how each hire sees only their own data |
+| 20 | [Preventing Duplicate Documents](20-Preventing-Duplicate-Documents) | The client-side guard and the server-side duplicate catcher |
+
+The packaged solutions are in [`/solution`](solution): the backend (Employee Onboarding Tracker, managed and unmanaged, **v1.1.0.0**) and the portal site (Employee Onboarding Portal, managed and unmanaged, **v1.0.0.0**).
 
 ---
 
@@ -87,7 +105,9 @@ The packaged solution (managed and unmanaged, v1.0.0.0) is in [`/solution`](solu
 
 **Probation milestones built in.** Onboarding doesn't close at Day 1. The record stays open through 30/60/90-day probation milestones owned by the reporting manager.
 
-**Self-service portal for new hires (designed, not yet built).** New hires will upload personal documents before Day 1 through an external-facing Power Pages portal. This is specified in Section 8 and planned for a later phase.
+**Self-service portal for new hires.** New hires upload personal documents before Day 1 through an external-facing Power Pages portal, where HR reviews and approves or rejects each one, the hire is notified of the outcome, and rejected documents can be corrected — all with per-hire data isolation enforced by table permissions.
+
+**One document of each type, by design.** The portal prevents duplicate submissions through two layers — a client-side dropdown guard and a server-side duplicate catcher — so HR never reviews two copies of the same document and the audit trail stays clean.
 
 ---
 
@@ -117,7 +137,12 @@ Employee-Onboarding-Tracker-Contoso/
 ├── 15-Preparation-Lead-Time/
 ├── 16-Solution-Hygiene-and-ALM/
 │
-└── solution/
+├── 17-Power-Pages-Portal-Architecture-and-Pages/
+├── 18-Document-Lifecycle-and-Portal-Automation/
+├── 19-Portal-Security-and-Row-Level-Isolation/
+├── 20-Preventing-Duplicate-Documents/
+│
+└── solution/   (backend + portal solutions, managed and unmanaged)
 ```
 
 ---
@@ -127,9 +152,9 @@ Employee-Onboarding-Tracker-Contoso/
 |  |  |
 | --- | --- |
 | **Use Case** | Employee Onboarding Tracker |
-| **Platform** | Microsoft Power Platform (Dataverse, Power Apps, Power Automate) |
+| **Platform** | Microsoft Power Platform (Dataverse, Power Apps, Power Automate, Power Pages) |
 | **Author** | [Martins Osahon Osimen](https://github.com/martosah) |
-| **Phases** | Phase 1 — Design & Specification · Phase 2 — Build & Delivery |
+| **Phases** | Phase 1 — Design & Specification · Phase 2 — Build & Delivery (Parts 1 & 2) · Phase 3 — Analytics & AI (future) |
 
 ---
 
