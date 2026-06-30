@@ -50,6 +50,9 @@ The Power Pages site: web pages, web files, basic forms, lists, and table permis
 
 ## Validation
 
-Both solutions passed Solution Checker with **0 issues** (Critical / High / Medium / Low all zero) at the versions above. The checker result screenshots are recorded alongside the build documentation in [Section 16](../16-Solution-Hygiene-and-ALM).
+Both solutions passed Solution Checker with **0 issues** (Critical / High / Medium / Low all zero) at the versions above. The checker result screenshots are committed in [Section 16](../16-Solution-Hygiene-and-ALM):
+
+- [Tracker — Solution Checker result](../16-Solution-Hygiene-and-ALM/Solution%20Checker%20-%20Employee%20Onboarding%20Tracker.png)
+- [Portal — Solution Checker result](../16-Solution-Hygiene-and-ALM/Solution%20Checker%20-%20Employee%20Onboarding%20Portal.png)
 
 > **Source-control note.** These `.zip` files are the deployable solution artifacts. For fine-grained version control of the portal specifically, the Power Platform CLI (`pac powerpages download`) can unpack the site into editable YAML/HTML/JS for file-by-file diffing — a documented future enhancement, not required for deployment.
