@@ -1,6 +1,8 @@
 # 6. Entity Relationship Diagram
 
-The data model consists of nine tables: four reference tables, four core transactional tables, and one supporting transactional table for documents.
+The data model consists of ten custom tables — four reference tables, four core transactional tables, one supporting transactional table for documents, and one audit table for rejected documents — plus the standard **Contact** table, which serves as the portal identity for new hires.
+
+> **Phase note.** This ERD reflects the model **as built across both parts of Phase 2.** The Rejected Document Archive table, the Contact relationships, and the portal-related columns on New Hire Document and Onboarding Record were added in **Phase 2 Part 2** (the Power Pages portal — Sections 17–20). Everything else was built in Part 1.
 
 ---
 
@@ -22,6 +24,9 @@ erDiagram
     ONBOARDING_RECORD ||--o{ ONBOARDING_TASK : "parents (cascade)"
     ONBOARDING_RECORD ||--o{ NEW_HIRE_DOCUMENT : "parents (cascade)"
     ONBOARDING_TASK ||--o{ EQUIPMENT : "relates"
+    CONTACT ||--o{ ONBOARDING_RECORD : "portal contact"
+    CONTACT ||--o{ NEW_HIRE_DOCUMENT : "uploaded by"
+    NEW_HIRE_DOCUMENT ||--o{ REJECTED_DOCUMENT_ARCHIVE : "archived as (on rejection)"
 
     DEPARTMENT {
         guid DepartmentId PK
@@ -64,11 +69,17 @@ erDiagram
         bool IsCriticalForDay1
         bool RequiresEquipment
     }
+    CONTACT {
+        guid ContactId PK
+        string FullName
+        string Email
+    }
     ONBOARDING_RECORD {
         guid OnboardingRecordId PK
         string RecordNumber
         lookup Employee FK
         lookup AssignedHRBP FK
+        lookup PortalContact FK
         choice RecordStatus
         choice Day1Readiness
         datetime RecordOpenedDate
@@ -97,9 +108,18 @@ erDiagram
         guid NewHireDocumentId PK
         string DocumentTitle
         lookup OnboardingRecord FK
+        lookup UploadedByContact FK
         choice DocumentType
         choice Status
+        string ReviewNote
         datetime UploadedDate
+    }
+    REJECTED_DOCUMENT_ARCHIVE {
+        guid RejectedDocumentArchiveId PK
+        lookup OriginalDocument FK
+        choice DocumentType
+        string RejectionReason
+        datetime RejectedOn
     }
     EQUIPMENT {
         guid EquipmentId PK
@@ -112,7 +132,7 @@ erDiagram
     }
 ```
 
-> The Staff → Onboarding Task line covers two lookups (Assigned To and Completed By), shown as one relationship for readability; both appear as FKs on Onboarding Task. Parental relationships (Onboarding Record → Task and → Document) cascade on delete; all other lookups use Remove Link or Restrict per the as-built model.
+> The Staff → Onboarding Task line covers two lookups (Assigned To and Completed By), shown as one relationship for readability; both appear as FKs on Onboarding Task. Parental relationships (Onboarding Record → Task and → Document) cascade on delete; all other lookups use Remove Link or Restrict per the as-built model. **Contact** is the standard Dataverse table that serves as the new hire's portal identity (see Section 17); only the columns relevant to this model are shown.
 ---
 
 ## Tables
@@ -144,6 +164,7 @@ erDiagram
 | Department | Lookup → Department | |
 | Email | Email | |
 | Backup Staff | Lookup → Staff | Self-reference |
+| App User | Lookup → User | Stores the system-user identity for flow ownership (see Section 12) |
 
 ### Task Template (reference)
 
@@ -172,7 +193,7 @@ erDiagram
 | Personal Email | Email | |
 | Work Email | Email | Populated by IT |
 
-### onboarding record (transactional)
+### Onboarding Record (transactional)
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -182,6 +203,7 @@ erDiagram
 | Record Opened Date | Date and Time | |
 | Record Closed Date | Date and Time | |
 | Assigned HRBP | Lookup → Staff | |
+| Portal Contact | Lookup → Contact | The new hire's portal identity (see Section 17) |
 | Day-1 Readiness | Choice | Pending, Ready, At Risk |
 | Probation Outcome | Choice | Passed, Extended, Failed |
 
@@ -190,7 +212,7 @@ erDiagram
 | Column | Type | Notes |
 | --- | --- | --- |
 | Task Number | Auto Number (TSK-001) | Primary Name |
-| Onboarding Record | Lookup → onboarding record | Parental |
+| Onboarding Record | Lookup → Onboarding Record | Parental |
 | Task Name | Single Line of Text | |
 | Assigned To | Lookup → Staff | |
 | Due Date | Date Only | |
@@ -198,6 +220,7 @@ erDiagram
 | Completed Date | Date and Time | |
 | Completed By | Lookup → Staff | |
 | Is Critical For Day 1 | Yes/No | |
+| New Hire Start Date | Date Only | Stamped at generation |
 | Notes | Multi-line Text | |
 | Template | Lookup → Task Template | |
 
@@ -217,11 +240,24 @@ erDiagram
 | Column | Type | Notes |
 | --- | --- | --- |
 | Document Title | Calculated | Employee Full Name + " — " + Document Type |
-| Onboarding Record | Lookup → onboarding record | Parental |
-| Document Type | Choice | BVN Slip, NIN Slip, Academic Certificate, Bank Details, Other |
-| File Attachment | File | |
-| Uploaded Date | Date and Time | |
+| Onboarding Record | Lookup → Onboarding Record | Parental |
+| Uploaded By Contact | Lookup → Contact | The portal contact who uploaded the document (drives row-level isolation — see Section 19) |
+| Document Type | Choice | Passport Photo, NIN Slip, BVN Slip, Academic Certificate, Bank Details, Other |
+| File Attachment | File / Note | Stored as a Note attachment for the portal upload control |
 | Status | Choice | Pending Review, Approved, Rejected |
+| Review Note | Multi-line Text | HR's feedback, shown to the hire on rejection (`pex_rejectionreason`) |
+| Uploaded Date | Date and Time | |
+
+### Rejected Document Archive (transactional / audit)
+
+Added in Phase 2 Part 2. When a document is rejected, an archive row preserves the rejected file and its context before the upload slot is freed for resubmission, so a tamper-evident history of rejected submissions is retained (see Section 18).
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| Original Document | Lookup → New Hire Document | The document this archive row was created from (`pex_originaldocument`) |
+| Document Type | Choice | Carried from the original document |
+| Rejection Reason | Multi-line Text | The Review Note at the time of rejection |
+| Rejected On | Date and Time | When the rejection occurred |
 
 ---
 
@@ -235,17 +271,20 @@ erDiagram
 | Job Role | Employee | 1:N | Referential, Restrict Delete |
 | Job Role | Task Template | 1:N | Referential, Remove Link |
 | Staff | Employee (Manager) | 1:N | Referential |
-| Staff | onboarding record (HRBP) | 1:N | Referential |
+| Staff | Onboarding Record (HRBP) | 1:N | Referential |
 | Staff | Onboarding Task (Assignee) | 1:N | Referential |
 | Staff | Onboarding Task (Completed By) | 1:N | Referential |
 | Staff | Equipment (Issued By) | 1:N | Referential |
 | Staff | Staff (Backup) | 1:1 | Referential, self-reference |
-| Employee | onboarding record | 1:1 | Referential, unique constraint |
+| Employee | Onboarding Record | 1:1 | Referential, unique constraint |
 | Employee | Equipment | 1:N | Referential, Restrict Delete |
-| onboarding record | Onboarding Task | 1:N | Parental |
-| onboarding record | New Hire Document | 1:N | Parental |
+| Onboarding Record | Onboarding Task | 1:N | Parental |
+| Onboarding Record | New Hire Document | 1:N | Parental |
 | Task Template | Onboarding Task | 1:N | Referential, Remove Link |
 | Onboarding Task | Equipment | 1:0..1 | Referential |
+| **Contact** | **Onboarding Record (Portal Contact)** | **1:N** | **Referential — the portal identity that owns the record** |
+| **Contact** | **New Hire Document (Uploaded By Contact)** | **1:N** | **Referential — the portal identity that uploaded the document** |
+| **New Hire Document** | **Rejected Document Archive (Original Document)** | **1:N** | **Referential, Remove Link — archive survives if the original is later removed** |
 
 ---
 
