@@ -2,6 +2,8 @@
 
 An enterprise-grade onboarding solution built on the Microsoft Power Platform — taken from problem statement through design, build, and packaged deployment.
 
+![Architecture overview — Employee Onboarding Tracker on the Power Platform](architecture-overview.png)
+
 ---
 
 ## The Problem
