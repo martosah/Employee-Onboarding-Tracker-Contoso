@@ -4,17 +4,21 @@ Section 6 presented the entity relationship diagram as a design. This section re
 
 For the visual model, see the ERD in [Section 6](../06-Entity-Relationship-Diagram).
 
+> **Phase note.** Tables, columns, and relationships marked *(Part 2)* below were added when the Power Pages portal was built — the Rejected Document Archive table, the New Hire Document portal columns, and the Portal Contact lookup. Everything else was built in Part 1.
+
 ---
 
 ## Table Classification
 
-The nine custom tables fall into three tiers. This ordering also drove the build sequence — reference tables first (nothing depends on them being populated), then master data, then the transactional tables that tie everything together.
+The ten custom tables fall into three tiers. This ordering also drove the build sequence — reference tables first (nothing depends on them being populated), then master data, then the transactional tables that tie everything together.
 
 | Tier | Tables | Role |
 | --- | --- | --- |
 | Reference | Department, Job Role, Staff, Task Template | Slow-changing lookups and the onboarding checklist library |
 | Master data | Employee | The person being onboarded |
-| Transactional | Onboarding Record, Onboarding Task, New Hire Document, Equipment | The live onboarding activity |
+| Transactional | Onboarding Record, Onboarding Task, New Hire Document, Equipment, Rejected Document Archive | The live onboarding activity, plus the rejected-document audit store *(Part 2)* |
+
+The model also uses the standard Dataverse **Contact** table as the new hire's portal identity; it is not a custom table, so it is not counted among the ten, but it carries the relationships that link a portal user to their record and documents (see [Section 17](../17-Power-Pages-Portal-Architecture-and-Pages)).
 
 ---
 
@@ -31,6 +35,7 @@ One Onboarding Record exists per new hire. It is the parent of that hire's tasks
 | Record Opened Date | Date & time | When onboarding began |
 | Record Closed Date | Date & time | Set on completion |
 | Assigned HRBP | Lookup → Staff | The HR Business Partner who owns the record |
+| Portal Contact | Lookup → Contact | The new hire's portal identity *(Part 2 — see Section 17)* |
 | Probation Outcome | Choice | Manager's decision at the 90-day mark |
 | Preparation Lead Time (Days) | Whole number | Days between record opened and start date — added in Phase 2 (see Section 15) |
 | Total Tasks | Rollup (whole number) | Count of related tasks |
@@ -100,6 +105,39 @@ The individual work items, generated from templates against a specific Onboardin
 
 ---
 
+## New Hire Document
+
+The documents a hire submits. Created from the model-driven app by HR, or — in the as-built solution — uploaded by the hire through the Power Pages portal, where each document is then reviewed.
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| Document Title | Calculated | Employee Full Name + " — " + Document Type |
+| Onboarding Record | Lookup → Onboarding Record | **Parental** — the document belongs to the record |
+| Uploaded By Contact | Lookup → Contact | The portal contact who uploaded it; drives row-level isolation *(Part 2 — see Section 19)* |
+| Document Type | Choice | Passport Photo / NIN Slip / BVN Slip / Academic Certificate / Bank Details / Other |
+| Status | Choice | Pending Review / Approved / Rejected |
+| Review Note | Multiple lines of text | HR's feedback, shown to the hire on rejection (`pex_rejectionreason`) *(Part 2)* |
+| Uploaded Date | Date & time | |
+
+The file itself is stored as a **Note (annotation) attachment** rather than in the table's File column, because the Power Pages upload control writes attachments as notes. This detail shapes several portal flows (see Section 18).
+
+---
+
+## Rejected Document Archive *(Part 2)*
+
+Added with the portal. When HR rejects a document, this table preserves the rejected file and its context **before** the original's upload slot is freed for resubmission — so the system retains a tamper-evident history of what was submitted and rejected, satisfying the enterprise requirement to keep rejected submissions for audit.
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| Original Document | Lookup → New Hire Document | The document this archive row was created from (`pex_originaldocument`) |
+| Document Type | Choice | Carried from the original document |
+| Rejection Reason | Multiple lines of text | The Review Note at the time of rejection |
+| Rejected On | Date & time | When the rejection occurred |
+
+The rejected file is copied here as a Note attachment by an automation flow at the moment of rejection. How this works end to end — and why archiving precedes freeing the slot — is covered in [Section 18](../18-Document-Lifecycle-and-Portal-Automation).
+
+---
+
 ## Supporting Tables
 
 | Table | Purpose | Notable columns |
@@ -107,7 +145,6 @@ The individual work items, generated from templates against a specific Onboardin
 | Department | Organisational units | Primary name |
 | Job Role | Role catalogue | Primary name |
 | Staff | Internal people who perform onboarding work | Backup Staff (self-reference), App User (lookup → User), Staff Role |
-| New Hire Document | Documents uploaded for a hire | **Parental** to Onboarding Record; Document Type; Document Status |
 | Equipment | Assets issued to a hire | Serial Number (primary), Equipment Type, Assigned To (→ Employee), Issued By (→ Staff), Date Issued, Related Task |
 
 The **App User** column on Staff is a deliberate design choice covered in Section 12 — it stores each staff member's system-user identity so flows can set task ownership reliably.
@@ -116,7 +153,7 @@ The **App User** column on Staff is a deliberate design choice covered in Sectio
 
 ## Relationships and Delete Behaviour
 
-Most relationships use the Dataverse default (Referential + Restrict), which is correct — it prevents deleting a Job Role that employees still point to, for example. Only eight relationships were changed from the default, and each change is intentional.
+Most relationships use the Dataverse default (Referential + Restrict), which is correct — it prevents deleting a Job Role that employees still point to, for example. The relationships changed from the default are listed below, and each change is intentional.
 
 | Child table | Lookup | Behaviour set | Why |
 | --- | --- | --- | --- |
@@ -128,8 +165,11 @@ Most relationships use the Dataverse default (Referential + Restrict), which is 
 | Equipment | Related Task | Remove Link | A task can be removed without deleting the equipment record |
 | Staff | Backup Staff (self-ref) | Remove Link | Removing a backup shouldn't cascade-delete the primary |
 | Task Template | Applies To Job Role | Remove Link | A role can be renamed/retired; templates survive |
+| New Hire Document | Uploaded By Contact | Referential | The upload link; clearing the contact doesn't delete the document *(Part 2)* |
+| Onboarding Record | Portal Contact | Referential | The portal-identity link on the record *(Part 2)* |
+| Rejected Document Archive | Original Document | **Remove Link** | The archive is an audit record — it must **survive** even if the original document is later removed, so it is deliberately *not* parental *(Part 2)* |
 
-The distinction in plain terms: **Parental** means the child cannot exist without the parent (delete the record, the tasks go with it). **Remove Link** means the reference is simply cleared if the target is deleted, so cross-table lookups never block a deletion or leave a dangling pointer.
+The distinction in plain terms: **Parental** means the child cannot exist without the parent (delete the record, the tasks go with it). **Remove Link** means the reference is simply cleared if the target is deleted, so cross-table lookups never block a deletion or leave a dangling pointer. The archive's Remove Link is the most deliberate of these — making it parental would cascade-delete the very audit trail it exists to preserve.
 
 ---
 
@@ -150,6 +190,8 @@ A few choices shape how the model behaves and are called out here so a reviewer 
 **Configuration lives in data, not logic.** The onboarding checklist is rows in Task Template; the readiness threshold and notification settings are environment variables. HR changes behaviour by editing data, not by reopening flows.
 
 **Parental cascade has an ownership side effect.** Because Onboarding Record → Onboarding Task is parental, changing the parent record's owner cascades to its child tasks. This directly affected the build: task ownership must be assigned in automation *before* the parent's owner is set, or the parent's owner overwrites every task owner. The flow is sequenced accordingly (see Section 12).
+
+**The rejected-document archive is non-parental by design.** An audit record that cascade-deletes with its source is no audit record at all. The archive uses Remove Link precisely so a rejected submission's history outlives the document it came from.
 
 ---
 
