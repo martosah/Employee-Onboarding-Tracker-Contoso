@@ -2,7 +2,7 @@
 
 Security in this solution is built on a single principle: **need-to-know, by role**. HR owns the onboarding process, Operations and IT execute the tasks, Reporting Managers supervise their own hires, and HR Leadership oversees everything. Each role sees and edits exactly what its job requires — no more.
 
-The model is implemented with four security roles, delivered through Owner teams, and tuned using Dataverse privilege depths rather than custom code.
+This section covers the **internal** security model — the access enjoyed by HR and operational staff in the model-driven app, implemented with four Dataverse security roles, delivered through Owner teams, and tuned using privilege depths rather than custom code. The **portal** has a separate access model (table permissions and web roles for new hires), covered in [Section 19](../19-Portal-Security-and-Row-Level-Isolation).
 
 ---
 
@@ -102,6 +102,14 @@ The model was tested with real users, not just assumed:
 ## Production Hardening (Documented, Not Built)
 
 In a full production tenant this model would be taken one step further: the Dataverse Owner teams would be linked to **Microsoft Entra security groups**, so that IT's existing group management governs team membership automatically. The Owner-team model used here demonstrates the same access outcomes without that external dependency, and the Entra-group linkage is the documented production pattern.
+
+---
+
+## Portal Security — A Separate Model
+
+Everything above governs **internal** users — HR and operational staff — through Dataverse security roles. **New hires never receive a Dataverse security role.** They access the system only through the Power Pages portal, where access is governed by a different mechanism entirely: **table permissions** scoped to the signed-in contact, attached to **web roles**, enforcing that each hire sees and edits only their own onboarding record and documents.
+
+This portal access model — the contact-scoped permissions, the child-permission chains for related notes and the rejected-document archive, and how row-level isolation is verified — is documented in [Section 19](../19-Portal-Security-and-Row-Level-Isolation). The two models are complementary: Dataverse roles secure the internal app, table permissions secure the portal, and the two never overlap because internal staff and new hires authenticate through entirely separate identity surfaces.
 
 ---
 
